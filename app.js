@@ -11,7 +11,7 @@ addEventListener("touchmove", e => { const m = e.target.closest(".lock-mid"); if
 const dev = detect(navigator.userAgent, navigator.maxTouchPoints);
 const ok = RELEASE && supported(dev.version, RELEASE.range);
 
-$("device").textContent = !dev.ios ? "Not an iPhone" : dev.version ? `iOS ${dev.version.filter((n, i) => i < 2 || n).join(".")}` : "iPad";
+$("device").textContent = !dev.ios ? "Not an iPhone" : dev.version ? `Your iPhone: iOS ${dev.version.filter((n, i) => i < 2 || n).join(".")}` : "Your iPhone";
 $("status").textContent = !RELEASE ? "Coming soon" : ok ? "Supported" : "Not supported";
 if (dev.ios) $("note").textContent = RELEASE ? (ok ? "Slide to begin." : "Your iOS version isn't supported by this release.") : "Nothing to download yet. Check back soon.";
 
