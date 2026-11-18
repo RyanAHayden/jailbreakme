@@ -1,4 +1,5 @@
 import { detect, supported } from "./ios.js";
+import "./scroller.js";
 
 // The release switch. Set both when Calif's exploit ships; until then the slider says "coming soon".
 const RELEASE = null; // e.g. { payload: "/calif/", range: { min: [15, 0, 0], max: [27, 0, 1] } }

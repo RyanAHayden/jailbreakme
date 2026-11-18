@@ -24,6 +24,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="JailbreakMe">
 <link rel="stylesheet" href="style.css">
+<script type="module" src="scroller.js"></script>
 <script>addEventListener("pagereveal", e => e.viewTransition?.types.add("push")); // which way the page slides (style.css)</script>
 </head>
 <body class="sub">
@@ -31,7 +32,7 @@
   <a class="back" href="/" id="back">JailbreakMe</a>
   <h1 class="nav-title">More Info</h1>
 </header>
-<main class="info">
+<div class="scroller"><main class="info">
   <h2 class="group-header">About</h2>
   <dl class="glass">
     <dt>What is this?</dt><dd>A one-tap jailbreak that runs from a web page. No computer, no cable, no signing.</dd>
@@ -49,7 +50,7 @@
     <dt>Is it safe?</dt><dd>Back up first. Restoring undoes a jailbreak, but your data is your responsibility.</dd>
   </dl>
   <p class="foot">jailbreakme.dev · not affiliated with Calif</p>
-</main>
+</main></div>
 <script>
 // Back: return to the page they came from (keeps its state) when that was ours; otherwise just link home.
 document.getElementById("back").addEventListener("click", e => { if (document.referrer.startsWith(location.origin) && history.length > 1) { e.preventDefault(); history.back(); } });
