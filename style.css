@@ -15,7 +15,7 @@ body {
 /* The wallpaper runs 200px past the bottom of the screen, so nothing iOS draws below the page (Safari's toolbar, the
    home indicator, a bounce) shows a plain edge. */
 body::before {
-  content: ""; position: fixed; inset: 0 0 -200px; z-index: -1; pointer-events: none;
+  content: ""; position: fixed; top: 0; left: 0; right: 0; height: calc(100lvh + 200px); z-index: -1; pointer-events: none;
   background: url("bg.jpg") 38% 45% / cover no-repeat;
 }
 
@@ -155,7 +155,9 @@ body.sub { position: fixed; inset: 0; overflow: hidden; }
 
 /* The main page is the lock screen: it never scrolls or rubber-bands. On a phone too short for the popup, only the
    middle scrolls. */
-body.lock { position: fixed; inset: 0; overflow: visible; overscroll-behavior: none; } /* visible: the bottom bar's extension paints past the edge; html already never scrolls */
+/* Tall as the screen with Safari's bars gone (100lvh), so it runs on behind Safari's floating toolbar; the content
+   stops at the visible edge (the padding is the toolbar's height), and the bar's glass fills the rest. */
+body.lock { position: fixed; top: 0; left: 0; right: 0; height: 100lvh; padding-bottom: calc(100lvh - 100dvh); overflow: visible; overscroll-behavior: none; } /* visible: the bottom bar's extension paints past the edge; html already never scrolls */
 body.lock .lock-mid { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 
 /* Page changes slide like a UINavigationController: More Info pushes in from the right, back pops it out to the right.
