@@ -41,12 +41,6 @@ body {
 .alert h2 { position: relative; margin: 0 0 6px; font-size: 18px; line-height: 22px; font-weight: bold; }
 .alert p { margin: 0 0 8px; }
 .alert .device { font-size: 14px; color: #c9c9d6; }
-.alert summary { list-style: none; cursor: pointer; font-weight: bold; font-size: 17px; margin-top: 4px; }
-.alert summary::-webkit-details-marker { display: none; }
-.alert details[open] summary { display: none; }
-.alert dl { margin: 0; text-align: left; font-size: 14px; line-height: 18px; }
-.alert dt { font-weight: bold; margin-top: 8px; }
-.alert dd { margin: 2px 0 0; color: #dcdce6; }
 
 /* ---- Bottom bar and slider: a black well with a hairline rim, a dark glossy knob, grey text with its shine ---- */
 .lock-bottom {
@@ -83,3 +77,41 @@ body {
 @keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
 .alert .credit { font-size: 14px; line-height: 18px; color: #dcdce6; }
 .alert a { color: #fff; font-weight: bold; }
+.alert .more { display: inline-block; margin-top: 4px; font-size: 17px; text-decoration: none; }
+
+/* ---- More Info: an iOS 6 black nav bar with a back button over the dimmed nebula, answers in dark glass ---- */
+body.sub { background-color: #0b0718; background-image: linear-gradient(rgba(5,2,14,.55), rgba(5,2,14,.55)), url("bg.jpg"); }
+.navbar {
+  position: sticky; top: 0; z-index: 2; height: calc(44px + env(safe-area-inset-top));
+  padding-top: env(safe-area-inset-top); display: grid; place-items: center;
+  background: linear-gradient(rgba(255,255,255,.2), rgba(255,255,255,.2)) 0 env(safe-area-inset-top) / 100% 1px no-repeat,
+    linear-gradient(#4c4c4c, #1a1a1a 50%, #000 52%, #0a0a0a) bottom / 100% 44px no-repeat, #000;
+  border-bottom: 1px solid rgba(0,0,0,.7);
+}
+.nav-title { margin: 0; font-size: 20px; font-weight: bold; text-shadow: 0 -1px 0 rgba(0,0,0,.6); }
+/* Back button: the black bar's bordered button cut to an arrow. The shape is a clip-path; the 1px rim is the same
+   shape one pixel larger behind it (::before), so the border follows the point. */
+.back {
+  position: absolute; left: 6px; bottom: 7px; height: 30px; padding: 0 9px 0 16px; z-index: 0;
+  font-size: 12px; font-weight: bold; line-height: 30px; color: #fff; text-decoration: none; text-shadow: 0 -1px 0 rgba(0,0,0,.5);
+  clip-path: polygon(0 50%, 13px 0, 100% 0, 100% 100%, 13px 100%);
+  background: #000;
+}
+.back::before {
+  content: ""; position: absolute; inset: 1px 1px 1px 1.4px; z-index: -1;
+  clip-path: polygon(0 50%, 12.6px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 12.6px 100%);
+  background: linear-gradient(#5d5d5d, #303030 50%, #1c1c1c 51%, #262626);
+}
+.back:active::before { background: linear-gradient(#3a3a3a, #1c1c1c 50%, #0c0c0c 51%, #141414); }
+.info { max-width: 480px; margin: 0 auto; padding: 4px 10px calc(env(safe-area-inset-bottom) + 24px); }
+.group-header { margin: 20px 9px 7px; font-size: 17px; font-weight: bold; text-shadow: 0 -1px 0 rgba(0,0,0,.8); }
+.glass {
+  margin: 0; padding: 0 12px; border: 1px solid rgba(255,255,255,.18); border-radius: 9.5px;
+  background: rgba(20,14,34,.62); box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.glass dt { padding-top: 11px; font-size: 16px; font-weight: bold; }
+.glass dd { margin: 3px 0 0; padding-bottom: 11px; font-size: 15px; line-height: 20px; color: #ddd8ea; }
+.glass dd + dt { border-top: 1px solid rgba(0,0,0,.45); box-shadow: inset 0 1px 0 rgba(255,255,255,.07); }
+.glass a { color: #fff; }
+.foot { margin: 22px 0 0; text-align: center; font-size: 14px; color: #bdb6cf; text-shadow: 0 -1px 0 rgba(0,0,0,.8); }

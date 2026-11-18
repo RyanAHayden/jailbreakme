@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 180 180" width="180" height="180">
+  <!-- The JailbreakMe icon, iOS 6 style: the nebula from bg.jpg (its bright core, 1200px square), a white open padlock,
+       and the iOS 6 gloss. Square on purpose: iOS rounds home-screen icons itself. Render: tools in README. -->
+  <defs>
+    <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".12"/>
+    </linearGradient>
+    <linearGradient id="lock" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#eadff7"/>
+    </linearGradient>
+    <radialGradient id="vignette" cx=".5" cy=".55" r=".75">
+      <stop offset=".3" stop-color="#14062a" stop-opacity="0"/>
+      <stop offset="1" stop-color="#14062a" stop-opacity=".75"/>
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#1a0630" flood-opacity=".75"/>
+    </filter>
+  </defs>
+  <image xlink:href="bg.jpg" x="-97.5" y="-112.5" width="526.2" height="372" preserveAspectRatio="none"/>
+  <rect width="180" height="180" fill="url(#vignette)"/>
+  <g filter="url(#shadow)" transform="translate(36 34) scale(1.7)">
+    <path fill="url(#lock)" d="M20 28v-7a12 12 0 0 1 23.6-3l-5.4 1.7A6.4 6.4 0 0 0 25.6 21v7H44a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H20a4 4 0 0 1-4-4V32a4 4 0 0 1 4-4Zm12 9a3.4 3.4 0 0 0-1.7 6.3V48h3.4v-4.7A3.4 3.4 0 0 0 32 37Z"/>
+  </g>
+  <ellipse cx="90" cy="-62" rx="150" ry="146" fill="url(#gloss)"/>
+</svg>
