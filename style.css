@@ -190,9 +190,9 @@ html:active-view-transition-type(pop)::view-transition-old(root) { animation-nam
 }
 
 /* Home Screen app: the nebula runs under the translucent status bar, and the slider sits just above the home
-   indicator, 10px over it (Safari keeps 20). The bar's glass carries on under it past the edge (.lock-bottom::after). */
+   indicator, 28px over it (Safari keeps 20). The bar's glass carries on under it past the edge (.lock-bottom::after). */
 @media (display-mode: standalone) {
-  .lock-bottom { padding-bottom: calc(env(safe-area-inset-bottom) + 10px); }
+  .lock-bottom { padding-bottom: calc(env(safe-area-inset-bottom) + 28px); }
 }
 
 /* ---- Scrolling, as in Cydian: the native scrollbar hidden for the iOS 6 indicator (scroller.js), and every scroller
