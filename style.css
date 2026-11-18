@@ -6,7 +6,8 @@
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 /* The document never scrolls (Cydian's fix): iOS 26 blurs the top and bottom edges of a scrolling page in the
    Home Screen app, with no switch for it. Inner scrollers don't get it, so pages scroll inside their own box. */
-html { background: #000; height: 100%; overflow: hidden; }
+html { background: #000; }
+@media (display-mode: standalone) { html { height: 100%; overflow: hidden; } }
 body {
   margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #fff; -webkit-text-size-adjust: 100%;
@@ -155,9 +156,14 @@ body.sub { position: fixed; inset: 0; overflow: hidden; }
 
 /* The main page is the lock screen: it never scrolls or rubber-bands. On a phone too short for the popup, only the
    middle scrolls. */
-/* Tall as the screen with Safari's bars gone (100lvh), so it runs on behind Safari's floating toolbar; the content
-   stops at the visible edge (the padding is the toolbar's height), and the bar's glass fills the rest. */
-body.lock { position: fixed; top: 0; left: 0; right: 0; height: 100lvh; padding-bottom: calc(100lvh - 100dvh); overflow: visible; overscroll-behavior: none; } /* visible: the bottom bar's extension paints past the edge; html already never scrolls */
+/* Safari (iOS 26) draws ordinary page content behind its glass toolbar, but not fixed elements: for those it just
+   fills the bar with their colour. So in Safari the lock screen is a normal page as tall as the screen with the
+   bars gone (100lvh); the content stops at the visible edge (the padding is the toolbar's height), the wallpaper and
+   the bar's glass carry on under the toolbar, and app.js stops touches from scrolling it. The Home Screen app has
+   no toolbar and pins it instead (the document mustn't scroll there: iOS 26 blurs a scrolling page's edges). */
+body.lock { position: relative; isolation: isolate; height: 100lvh; padding-bottom: calc(100lvh - 100dvh); overflow: clip; overscroll-behavior: none; } /* clip: exactly screen-tall, nothing to scroll to */
+body.lock::before { position: absolute; height: calc(100% + 200px); }
+@media (display-mode: standalone) { body.lock { position: fixed; inset: 0; height: auto; padding-bottom: 0; } }
 body.lock .lock-mid { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 
 /* Page changes slide like a UINavigationController: More Info pushes in from the right, back pops it out to the right.
