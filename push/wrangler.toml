@@ -1,0 +1,10 @@
+name = "jailbreakme-push"
+main = "worker.js"
+workers_dev = true
+preview_urls = false
+compatibility_date = "2026-11-01"
+kv_namespaces = [{ binding = "SUBS", id = "970d949fa21a4581a0d388d4b4e84aa9" }]
+
+[vars]
+VAPID_PUBLIC = "BOu4HoAU5sigMjpwLp0D8b3UeESTPdqF8Q9znnpFsAHMJks8nuks08sh-8YmFzTDtHIwC0qeS-2wnq7ACtXrSdI"
+# Secrets (wrangler secret put): VAPID_PRIVATE (JWK JSON), ANNOUNCE_TOKEN.

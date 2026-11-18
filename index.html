@@ -8,6 +8,10 @@
 <meta name="description" content="An unofficial, one-tap Safari jailbreak page, waiting on Calif's public exploit release.">
 <link rel="icon" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JailbreakMe">
 <link rel="stylesheet" href="style.css">
 <script type="module" src="app.js"></script>
 </head>
@@ -18,13 +22,28 @@
 </header>
 
 <main class="lock-mid">
-  <div class="alert" role="dialog" aria-labelledby="alert-title">
-    <h2 id="alert-title">JailbreakMe</h2>
-    <p>Jailbreak to get tweaks and apps Apple won't allow in the App Store. Free, from Safari, in seconds. Supports iOS 27.0.1.</p>
-    <p class="credit">Built on exploit research by <a href="https://calif.io">Calif</a>. Not affiliated with Calif.</p>
-    <p id="note">Nothing to download yet. Check back soon.</p>
-    <p class="device"><span id="device">…</span> · <span id="status">Coming soon</span></p>
-    <a class="more" href="info.html">More Info »</a>
+  <div class="alert" id="alert" role="dialog" aria-labelledby="alert-title">
+    <div id="info">
+      <h2 id="alert-title">JailbreakMe</h2>
+      <p>Jailbreak to get tweaks and apps Apple won't allow in the App Store. Free, from Safari, in seconds. Supports iOS 27.0.1.</p>
+      <p class="credit">Built on exploit research by <a href="https://calif.io">Calif</a>. Not affiliated with Calif.</p>
+      <p id="note">Nothing to download yet. Check back soon.</p>
+      <p class="device"><span id="device">…</span> · <span id="status">Coming soon</span></p>
+      <a class="more" href="info.html">More Info »</a>
+    </div>
+    <div id="notyet" hidden>
+      <h2>Not yet!</h2>
+      <p>Calif hasn't released the exploit. Follow @calif_io for news, or get a notification here the moment it drops.</p>
+      <ol class="steps" id="howto" hidden>
+        <li>Tap <b class="nw"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 9H6.5A1.5 1.5 0 0 0 5 10.5v9A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 17.5 9H16M12 3v12M8 7l4-4 4 4"/></svg> Share</b></li>
+        <li>Tap <b class="nw"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg> Add to Home Screen</b></li>
+        <li>Open JailbreakMe from there and tap Notify Me</li>
+      </ol>
+      <p class="device" id="push-msg" hidden></p>
+      <a class="alert-btn" href="https://x.com/calif_io">Follow @calif_io</a>
+      <button class="alert-btn" id="notify" type="button">Notify Me</button>
+      <button class="alert-btn cancel" id="close" type="button">Close</button>
+    </div>
   </div>
 </main>
 
