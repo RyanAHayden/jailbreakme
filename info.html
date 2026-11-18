@@ -53,8 +53,7 @@
   <p class="foot">jailbreakme.dev · not affiliated with Calif</p>
 </main></div>
 <script>
-// Back: return to the page they came from (keeps its state) when that was ours; otherwise just link home.
-document.getElementById("back").addEventListener("click", e => { if (document.referrer.startsWith(location.origin) && history.length > 1) { e.preventDefault(); history.back(); } });
+// Back is a plain link home, not history.back(): Safari runs no view transition when it restores a page from history.
 addEventListener("touchstart", () => {}, { passive: true }); // without a touch listener iOS never shows :active</script>
 </body>
 </html>
