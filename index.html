@@ -13,9 +13,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="JailbreakMe">
 <link rel="stylesheet" href="style.css">
+<script>addEventListener("pagereveal", e => e.viewTransition?.types.add("pop")); // which way the page slides (style.css)</script>
 <script type="module" src="app.js"></script>
 </head>
-<body>
+<body class="lock">
 <header class="lock-top">
   <h1 class="clock">JailbreakMe</h1>
   <p class="date">jailbreakme.dev</p>
@@ -37,7 +38,7 @@
       <ol class="steps" id="howto" hidden>
         <li>Tap <b class="nw"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 9H6.5A1.5 1.5 0 0 0 5 10.5v9A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 17.5 9H16M12 3v12M8 7l4-4 4 4"/></svg> Share</b></li>
         <li>Tap <b class="nw"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg> Add to Home Screen</b></li>
-        <li>Open JailbreakMe from there and tap Notify Me</li>
+        <li>Open JailbreakMe from your Home Screen, slide, and tap Notify Me</li>
       </ol>
       <p class="device" id="push-msg" hidden></p>
       <a class="alert-btn" href="https://x.com/calif_io">Follow @calif_io</a>

@@ -77,7 +77,9 @@ body {
 @keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
 .alert .credit { font-size: 14px; line-height: 18px; color: #dcdce6; }
 .alert a { color: #fff; font-weight: bold; }
-.alert .more { display: inline-block; margin-top: 4px; font-size: 17px; text-decoration: none; }
+.alert .more { display: inline-block; margin-top: 4px; padding: 4px 10px; border-radius: 6px; font-size: 17px; text-decoration: none; }
+.alert .more:active { background: rgba(0,0,0,.3); box-shadow: inset 0 1px 3px rgba(0,0,0,.5); }
+.alert a:not(.alert-btn):not(.more):active { opacity: .6; }
 
 /* ---- More Info: an iOS 6 black nav bar with a back button over the dimmed nebula, answers in dark glass ---- */
 body.sub { background-color: #0b0718; background-image: linear-gradient(rgba(5,2,14,.55), rgba(5,2,14,.55)), url("bg.jpg"); }
@@ -89,20 +91,15 @@ body.sub { background-color: #0b0718; background-image: linear-gradient(rgba(5,2
   border-bottom: 1px solid rgba(0,0,0,.7);
 }
 .nav-title { margin: 0; font-size: 20px; font-weight: bold; text-shadow: 0 -1px 0 rgba(0,0,0,.6); }
-/* Back button: the black bar's bordered button cut to an arrow. The shape is a clip-path; the 1px rim is the same
-   shape one pixel larger behind it (::before), so the border follows the point. */
+/* Back button: Cydian's approach (border-image of the arrow SVG, sliced so the point and the right edge keep their
+   shape at any width), with sidedrop's black-bar art: back.svg, back-pressed.svg. */
 .back {
-  position: absolute; left: 6px; bottom: 7px; height: 30px; padding: 0 9px 0 16px; z-index: 0;
-  font-size: 12px; font-weight: bold; line-height: 30px; color: #fff; text-decoration: none; text-shadow: 0 -1px 0 rgba(0,0,0,.5);
-  clip-path: polygon(0 50%, 13px 0, 100% 0, 100% 100%, 13px 100%);
-  background: #000;
+  position: absolute; left: 6px; bottom: 7px; height: 30px; padding: 0 5px 0 1px;
+  font-size: 12px; font-weight: bold; line-height: 28px; color: #fff; text-decoration: none; text-shadow: 0 -1px 0 rgba(0,0,0,.5);
+  border: solid transparent; border-width: 0 5px 0 13px;
+  border-image: url("back.svg") 0 10 0 26 fill / 0 5px 0 13px;
 }
-.back::before {
-  content: ""; position: absolute; inset: 1px 1px 1px 1.4px; z-index: -1;
-  clip-path: polygon(0 50%, 12.6px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 12.6px 100%);
-  background: linear-gradient(#5d5d5d, #303030 50%, #1c1c1c 51%, #262626);
-}
-.back:active::before { background: linear-gradient(#3a3a3a, #1c1c1c 50%, #0c0c0c 51%, #141414); }
+.back:active { border-image-source: url("back-pressed.svg"); }
 .info { max-width: 480px; margin: 0 auto; padding: 4px 10px calc(env(safe-area-inset-bottom) + 24px); }
 .group-header { margin: 20px 9px 7px; font-size: 17px; font-weight: bold; text-shadow: 0 -1px 0 rgba(0,0,0,.8); }
 .glass {
@@ -130,10 +127,32 @@ body.sub { background-color: #0b0718; background-image: linear-gradient(rgba(5,2
   background-origin: border-box;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.28), 0 1px 0 rgba(255,255,255,.12);
 }
-.alert-btn:active { background: linear-gradient(rgba(150,170,230,.6), rgba(80,105,190,.6) 50%, rgba(60,85,170,.6) 51%, rgba(80,105,190,.6)); background-origin: border-box; }
+.alert-btn:active { /* held: darker, the gloss pressed in */
+  background: linear-gradient(rgba(0,0,0,.18), rgba(0,0,0,.3) 50%, rgba(0,0,0,.38) 51%, rgba(0,0,0,.3)); background-origin: border-box;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.12);
+}
 .alert-btn.cancel { background: linear-gradient(rgba(0,0,0,.05), rgba(0,0,0,.2) 50%, rgba(0,0,0,.32) 51%, rgba(0,0,0,.25)); background-origin: border-box; }
-.alert-btn.cancel:active { background: rgba(0,0,0,.45); }
+.alert-btn.cancel:active { background: linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.5)); background-origin: border-box; box-shadow: inset 0 1px 3px rgba(0,0,0,.6); }
 .alert-btn:disabled { opacity: .6; cursor: default; }
 .steps { margin: 4px 0 6px; padding: 0 0 0 22px; text-align: left; font-size: 15px; line-height: 24px; }
 .nw { white-space: nowrap; }
 .ic { width: 18px; height: 18px; vertical-align: -3px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* The main page is the lock screen: it never scrolls or rubber-bands. On a phone too short for the popup, only the
+   middle scrolls. */
+body.lock { position: fixed; inset: 0; overflow: hidden; overscroll-behavior: none; }
+body.lock .lock-mid { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+
+/* Page changes slide like a UINavigationController: More Info pushes in from the right, back pops it out to the right.
+   Cross-document view transitions; each page tags its arrival "push" or "pop" (pagereveal in its <head>). */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation: .35s cubic-bezier(.25,.1,.25,1) both; mix-blend-mode: normal; }
+html:active-view-transition-type(push)::view-transition-new(root) { animation-name: from-right; }
+html:active-view-transition-type(push)::view-transition-old(root) { animation-name: to-left; }
+html:active-view-transition-type(pop)::view-transition-new(root) { animation-name: from-left; }
+html:active-view-transition-type(pop)::view-transition-old(root) { animation-name: to-right; }
+@keyframes from-right { from { transform: translateX(100%); } }
+@keyframes to-left { to { transform: translateX(-100%); } }
+@keyframes from-left { from { transform: translateX(-100%); } }
+@keyframes to-right { to { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) { ::view-transition-old(root), ::view-transition-new(root) { animation: none; } }

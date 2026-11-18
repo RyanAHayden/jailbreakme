@@ -12,10 +12,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="JailbreakMe">
 <link rel="stylesheet" href="style.css">
+<script>addEventListener("pagereveal", e => e.viewTransition?.types.add("push")); // which way the page slides (style.css)</script>
 </head>
 <body class="sub">
 <header class="navbar">
-  <a class="back" href="./">JailbreakMe</a>
+  <a class="back" href="/" id="back">JailbreakMe</a>
   <h1 class="nav-title">More Info</h1>
 </header>
 <main class="info">
@@ -37,5 +38,9 @@
   </dl>
   <p class="foot">jailbreakme.dev · not affiliated with Calif</p>
 </main>
+<script>
+// Back: return to the page they came from (keeps its state) when that was ours; otherwise just link home.
+document.getElementById("back").addEventListener("click", e => { if (document.referrer.startsWith(location.origin) && history.length > 1) { e.preventDefault(); history.back(); } });
+addEventListener("touchstart", () => {}, { passive: true }); // without a touch listener iOS never shows :active</script>
 </body>
 </html>

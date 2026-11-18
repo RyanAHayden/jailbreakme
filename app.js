@@ -4,6 +4,9 @@ import { detect, supported } from "./ios.js";
 const RELEASE = null; // e.g. { payload: "/calif/", range: { min: [15, 0, 0], max: [27, 0, 1] } }
 
 const $ = id => document.getElementById(id);
+addEventListener("touchstart", () => {}, { passive: true }); // without a touch listener iOS never shows :active
+// The lock screen never scrolls: stop the page dragging, except where the middle has room to scroll.
+addEventListener("touchmove", e => { const m = e.target.closest(".lock-mid"); if (!m || m.scrollHeight <= m.clientHeight) e.preventDefault(); }, { passive: false });
 const dev = detect(navigator.userAgent, navigator.maxTouchPoints);
 const ok = RELEASE && supported(dev.version, RELEASE.range);
 
@@ -64,7 +67,6 @@ const subscribed = () => { $("notify").textContent = "Notifications On"; $("noti
 const reg = canPush ? navigator.serviceWorker.register("sw.js") : null;
 
 reg?.then(r => r.pushManager.getSubscription()).then(s => { if (s && Notification.permission === "granted") subscribed(); }).catch(() => {});
-if (standalone && !RELEASE) popup(true); // opened from the Home Screen: straight to Notify Me
 
 $("notify").addEventListener("click", async () => {
   if (dev.ios && !standalone) { $("howto").hidden = false; return; }
