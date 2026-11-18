@@ -1,0 +1,85 @@
+/* The iOS lock screen: the nebula wallpaper (bg.jpg, 3508x2480), a smoked-glass bar on top with the big clock-style
+   title, a UIAlertView in the middle, and the slide-to-unlock bar along the bottom. Everything but the wallpaper is
+   CSS and inline SVG, so it stays sharp at 3x. A gradient on an element with a border needs
+   background-origin: border-box, or it tiles into the border. */
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { background: #000; }
+body {
+  margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #fff; -webkit-text-size-adjust: 100%;
+  background: #0b0718 url("bg.jpg") 38% 45% / cover no-repeat fixed;
+}
+
+/* ---- Top bar: smoked glass, a lighter band over the upper half, the title glowing white ---- */
+.lock-top {
+  padding: calc(env(safe-area-inset-top) + 6px) 16px 12px; text-align: center;
+  background: linear-gradient(rgba(40,40,40,.62), rgba(20,20,20,.62) 50%, rgba(0,0,0,.72) 50.5%, rgba(0,0,0,.78));
+  border-bottom: 1px solid rgba(255,255,255,.14); box-shadow: 0 1px 0 rgba(0,0,0,.6);
+}
+.clock {
+  margin: 0; font-size: clamp(46px, 15vw, 76px); font-weight: 300; line-height: 1.1; letter-spacing: -.5px;
+  color: #fff; background: linear-gradient(#fff 55%, #c9c9d0); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; filter: drop-shadow(0 -1px 0 rgba(0,0,0,.6));
+}
+.date { margin: 2px 0 0; font-size: 18px; text-shadow: 0 -1px 0 rgba(0,0,0,.7); }
+
+/* ---- UIAlertView: dark blue-grey glass, a 2px light rim, the curved gloss across the top ---- */
+.lock-mid { flex: 1; display: grid; place-items: center; padding: 24px 16px; }
+.alert {
+  position: relative; width: 100%; max-width: 290px; padding: 16px 14px 14px; overflow: hidden;
+  text-align: center; font-size: 16px; line-height: 20px; text-shadow: 0 -1px 0 rgba(0,0,0,.6);
+  border: 2px solid rgba(225,228,236,.88); border-radius: 10px;
+  background: linear-gradient(rgba(70,70,82,.78), rgba(40,38,52,.82)); background-origin: border-box;
+  box-shadow: 0 3px 10px rgba(0,0,0,.6), inset 0 0 0 1px rgba(0,0,0,.25);
+  -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+}
+.alert::before { /* gloss: a wide ellipse of white, bottom edge curving down across the top 30px */
+  content: ""; position: absolute; left: -40%; right: -40%; top: -170px; height: 205px; border-radius: 50%;
+  background: linear-gradient(rgba(255,255,255,.32), rgba(255,255,255,.1)); pointer-events: none;
+}
+.alert h2 { position: relative; margin: 0 0 6px; font-size: 18px; line-height: 22px; font-weight: bold; }
+.alert p { margin: 0 0 8px; }
+.alert .device { font-size: 14px; color: #c9c9d6; }
+.alert summary { list-style: none; cursor: pointer; font-weight: bold; font-size: 17px; margin-top: 4px; }
+.alert summary::-webkit-details-marker { display: none; }
+.alert details[open] summary { display: none; }
+.alert dl { margin: 0; text-align: left; font-size: 14px; line-height: 18px; }
+.alert dt { font-weight: bold; margin-top: 8px; }
+.alert dd { margin: 2px 0 0; color: #dcdce6; }
+
+/* ---- Bottom bar and slider: a black well with a hairline rim, a dark glossy knob, grey text with its shine ---- */
+.lock-bottom {
+  padding: 20px 20px calc(env(safe-area-inset-bottom) + 20px);
+  background: linear-gradient(rgba(20,20,20,.6), rgba(0,0,0,.6) 50%, rgba(0,0,0,.78) 50.5%, rgba(0,0,0,.85));
+  border-top: 1px solid rgba(255,255,255,.12); box-shadow: 0 -1px 0 rgba(0,0,0,.6);
+}
+.slider-track {
+  position: relative; max-width: 360px; height: 62px; margin: 0 auto; padding: 4px; border-radius: 13px;
+  background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.14);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.8);
+}
+.slider-label {
+  position: absolute; inset: 0 8px 0 98px; display: grid; place-items: center; pointer-events: none;
+  font-size: 22px; white-space: nowrap; color: transparent;
+  background: linear-gradient(90deg, #555 0 40%, #fff 50%, #555 60% 100%) 0 0 / 300% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  animation: shine 2.6s linear infinite;
+}
+@keyframes shine { from { background-position: 100% 0; } to { background-position: 0 0; } }
+@media (prefers-reduced-motion: reduce) { .slider-label { animation: none; background: none; color: #777; } }
+.slider-knob {
+  position: relative; width: 82px; height: 52px; border-radius: 10px; display: grid; place-items: center;
+  cursor: grab; touch-action: none; will-change: transform;
+  border: 1px solid #111; border-top-color: #2a2a2a;
+  background: linear-gradient(#77777b, #4d4d51 50%, #3c3c40 51%, #2d2d31); background-origin: border-box;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 2px rgba(0,0,0,.6);
+}
+.slider-knob.held { background: linear-gradient(#5d5d61, #3a3a3e 50%, #2c2c30 51%, #1f1f23); background-origin: border-box; cursor: grabbing; }
+.slider-knob svg { width: 36px; height: 27px; fill: #000; filter: drop-shadow(0 1px 0 rgba(255,255,255,.25)); }
+.slider-knob:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+.shake { animation: shake .4s; }
+@keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+.alert .credit { font-size: 14px; line-height: 18px; color: #dcdce6; }
+.alert a { color: #fff; font-weight: bold; }
