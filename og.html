@@ -1,41 +1,69 @@
 <!doctype html>
-<!-- The link-preview card (og.png), drawn with the site's own styles. Render:
-     chromium --headless --hide-scrollbars --force-device-scale-factor=2 --window-size=1200,630 --screenshot=og.png http://localhost:8000/og.html -->
+<!-- The link-preview card (og.jpg): the site running on the black iPhone 4S from the Teehan+Lax iOS 5 GUI kit, with
+     its screen glare. The phone bitmap isn't committed: copy the kit's "iPhone 4 Black" layer (ios5 img-hd/08.png,
+     1520x2970, screen at 128,530 1280x1920) to ref/4s.png. Render:
+     chromium --headless --hide-scrollbars --force-device-scale-factor=2 --window-size=1200,630 --virtual-time-budget=3000 \
+       --user-agent="Mozilla/5.0 (iPhone; CPU iPhone OS 27_0_1 like Mac OS X) AppleWebKit/605.1.15" \
+       --screenshot=og.png http://localhost:8000/og.html && magick og.png -quality 88 og.jpg -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <title>JailbreakMe card</title>
 <link rel="stylesheet" href="style.css">
 <style>
-  body { height: 630px; min-height: 0; background-position: 38% 42%; }
-  .clock { font-size: 92px; }
-  .date { font-size: 24px; }
-  .card { flex: 1; display: flex; align-items: center; justify-content: center; gap: 44px; }
-  .card img { width: 190px; height: 190px; border-radius: 34px; box-shadow: 0 6px 18px rgba(0,0,0,.6); }
-  .alert { max-width: 470px; padding: 22px 22px 20px; font-size: 25px; line-height: 31px; }
-  .alert h2 { font-size: 30px; line-height: 36px; margin-bottom: 8px; }
-  .alert p { margin: 0 0 8px; }
-  .alert .credit { font-size: 19px; line-height: 24px; margin: 0; }
-  .lock-bottom { padding: 18px; }
-  .slider-track { max-width: 460px; }
-  .slider-label { animation: none; background-position: 60% 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    display: flex; flex-direction: row; align-items: center;
+    background: linear-gradient(90deg, rgba(5,2,14,.55), rgba(5,2,14,.1) 60%), #0b0718 url("bg.jpg") 30% 45% / cover no-repeat;
+  }
+  .side { flex: 1; padding: 0 0 0 86px; text-align: left; }
+  .side .clock { font-size: 104px; text-align: left; }
+  .side .date { margin: 6px 0 30px 4px; font-size: 28px; }
+  .side .alert { max-width: 470px; text-align: left; padding: 20px 24px; font-size: 25px; line-height: 31px; }
+  .side .alert h2 { font-size: 29px; line-height: 34px; margin-bottom: 6px; }
+  .side .alert p { margin: 0 0 6px; }
+  .side .alert .credit { font-size: 19px; line-height: 24px; margin: 0; }
+
+  /* The phone: the kit's bitmap at --s of its point size (380 x 742.5 pt), the page in its 320 x 480 pt screen. */
+  .phone { --s: .78; position: relative; flex: none; width: calc(380px * var(--s)); height: calc(742.5px * var(--s)); margin: 30px 110px 0 0; }
+  .phone > img { position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(0 18px 30px rgba(0,0,0,.6)); }
+  .screen { position: absolute; left: calc(32px * var(--s)); top: calc(132.5px * var(--s)); width: 320px; height: 480px; overflow: hidden; transform: scale(var(--s)); transform-origin: 0 0; background: #000; }
+  .screen iframe { display: block; width: 320px; height: 460px; border: 0; }
+  .glare { position: absolute; inset: 0; z-index: 1; display: block; pointer-events: none; background: linear-gradient(200deg, rgba(255,255,255,.3), rgba(255,255,255,.1)); clip-path: polygon(58.7% -1%, 101% -1%, 101% 77.2%); } /* the kit's "Screen Glare" */
+
+  /* iOS 6 status bar, translucent black over the lock screen */
+  .status { display: flex; align-items: center; height: 20px; padding: 0 5px; background: rgba(0,0,0,.6); color: #fff; font-size: 12px; font-weight: bold; text-shadow: 0 -1px 0 rgba(0,0,0,.6); }
+  .status .bars { display: flex; align-items: flex-end; gap: 1px; height: 10px; margin-right: 4px; }
+  .status .bars i { width: 3px; background: #fff; }
+  .status .mid { flex: 1; text-align: center; }
+  .status .bat { width: 22px; height: 10px; border: 1px solid #fff; border-radius: 2px; padding: 1px; position: relative; }
+  .status .bat::before { content: ""; display: block; height: 100%; background: #fff; }
+  .status .bat::after { content: ""; position: absolute; right: -3px; top: 2px; width: 2px; height: 4px; background: #fff; border-radius: 0 1px 1px 0; }
+  .status .side-r { width: 70px; display: flex; justify-content: flex-end; align-items: center; gap: 4px; }
+  .status .side-l { width: 70px; display: flex; align-items: center; }
 </style>
 </head>
 <body>
-<header class="lock-top"><h1 class="clock">JailbreakMe</h1><p class="date">jailbreakme.dev</p></header>
-<main class="card">
-  <img src="apple-touch-icon.png" alt="">
+<div class="side">
+  <h1 class="clock">JailbreakMe</h1>
+  <p class="date">jailbreakme.dev</p>
   <div class="alert">
     <h2>Coming soon</h2>
     <p>Jailbreak iOS 27.0.1 from Safari.<br>One slide. No computer.</p>
     <p class="credit">Built on Calif's research · not affiliated</p>
   </div>
-</main>
-<footer class="lock-bottom">
-  <div class="slider-track">
-    <span class="slider-label">slide to jailbreak</span>
-    <div class="slider-knob"><svg viewBox="0 0 40 30"><path d="M4 10.5h17V3l15 12-15 12v-7.5H4z"/></svg></div>
+</div>
+<div class="phone">
+  <img src="ref/4s.png" alt="">
+  <div class="screen">
+    <div class="status">
+      <span class="side-l"><span class="bars"><i style="height:3px"></i><i style="height:5px"></i><i style="height:7px"></i><i style="height:9px"></i><i style="height:10px"></i></span>Carrier</span>
+      <span class="mid"><svg viewBox="0 0 10 12" width="9" height="11" fill="#fff"><path d="M2 5V3.5a3 3 0 0 1 6 0V5h.5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1.4 0h3.2V3.5a1.6 1.6 0 0 0-3.2 0z"/></svg></span>
+      <span class="side-r">100% <span class="bat"></span></span>
+    </div>
+    <iframe src="index.html" scrolling="no"></iframe>
+    <i class="glare"></i>
   </div>
-</footer>
+</div>
 </body>
 </html>

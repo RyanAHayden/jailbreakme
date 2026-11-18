@@ -156,3 +156,22 @@ html:active-view-transition-type(pop)::view-transition-old(root) { animation-nam
 @keyframes from-left { from { transform: translateX(-100%); } }
 @keyframes to-right { to { transform: translateX(100%); } }
 @media (prefers-reduced-motion: reduce) { ::view-transition-old(root), ::view-transition-new(root) { animation: none; } }
+
+/* Short screens (iPhone 4S/SE in Safari, ~460pt tall): the lock screen tightens up so the alert still fits whole. */
+@media (max-height: 540px) {
+  .lock-top { padding-bottom: 6px; }
+  .clock { font-size: 40px; }
+  .date { font-size: 15px; }
+  .lock-mid { padding: 8px 14px; }
+  .alert { padding: 9px 12px; font-size: 14px; line-height: 17px; }
+  .alert h2 { font-size: 16px; line-height: 19px; margin-bottom: 3px; }
+  .alert p { margin-bottom: 5px; }
+  .alert .credit, .alert .device { font-size: 12px; line-height: 15px; }
+  .alert .more { margin-top: 0; padding: 2px 8px; font-size: 15px; }
+  .alert-btn { height: 36px; margin-top: 6px; font-size: 15px; line-height: 34px; }
+  .steps { font-size: 13px; line-height: 20px; }
+  .lock-bottom { padding: 10px 14px calc(env(safe-area-inset-bottom) + 10px); }
+  .slider-track { height: 52px; }
+  .slider-knob { width: 70px; height: 42px; }
+  .slider-label { inset: 0 8px 0 82px; font-size: 19px; }
+}
