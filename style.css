@@ -6,7 +6,8 @@
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 /* The document never scrolls (Cydian's fix): iOS 26 blurs the top and bottom edges of a scrolling page in the
    Home Screen app, with no switch for it. Inner scrollers don't get it, so pages scroll inside their own box. */
-html { background: #000; }
+/* No zoom: touch-action kills double-tap zoom, the gesturestart handler in each page kills pinch (Safari ignores user-scalable=no). */
+html { background: #000; touch-action: manipulation; }
 @media (display-mode: standalone) { html { height: 100%; overflow: hidden; } }
 body {
   margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;

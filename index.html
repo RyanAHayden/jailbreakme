@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#000">
 <title>JailbreakMe</title>
 <meta name="description" content="An unofficial, one-slide Safari jailbreak for iOS 27.0.1, built on Calif's exploit research. Coming soon.">
@@ -25,7 +25,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="JailbreakMe">
 <link rel="stylesheet" href="style.css">
-<script>addEventListener("pagereveal", e => e.viewTransition?.types.add("pop")); // which way the page slides (style.css)</script>
+<script>addEventListener("gesturestart", e => e.preventDefault()); addEventListener("pagereveal", e => e.viewTransition?.types.add("pop")); // which way the page slides (style.css)</script>
 <script type="module" src="app.js"></script>
 </head>
 <body class="lock">
